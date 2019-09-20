@@ -14,6 +14,7 @@
 
 variable "gcp_project_id" {
   type = "string"
+  default = "new-project-249604"
 
   description = <<EOF
 The ID of the project in which the resources belong.
@@ -22,6 +23,7 @@ EOF
 
 variable "cluster_name" {
   type = "string"
+  default = "cluster1"
 
   description = <<EOF
 The name of the cluster, unique within the project and zone.
@@ -30,6 +32,7 @@ EOF
 
 variable "gcp_location" {
   type = "string"
+   default = "us-central1-a"
 
   description = <<EOF
 The location (region or zone) in which the cluster master will be created,
@@ -47,6 +50,7 @@ EOF
 
 variable "daily_maintenance_window_start_time" {
   type = "string"
+  default = "04:30"
 
   description = <<EOF
 The start time of the 4 hour window for daily maintenance operations RFC3339
@@ -56,6 +60,23 @@ EOF
 
 variable "node_pools" {
   type = "list"
+  default = [{
+    # External network that can access Kubernetes master through HTTPS. Must
+    # be specified in CIDR notation. This block should allow access from any
+    # address, but is given explicitly to prevernt Google's defaults from
+    # fighting with Terraform.
+    name = "clusclus"
+    initial_node_count = "3"
+    autoscaling_min_node_count = "2"
+    autoscaling_max_node_count = "5"
+    management_auto_repair ="true"
+    management_auto_upgrade = "true"
+    node_config_machine_type = "n1-standard-1"
+    node_config_disk_type = "pd-standard"
+    
+node_config_disk_size_gb ="15GB"
+    node_config_preemptible = "false"
+  }]
 
   description = <<EOF
 The list of node pool configurations, each should include:
