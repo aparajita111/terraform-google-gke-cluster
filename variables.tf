@@ -32,7 +32,7 @@ EOF
 
 variable "gcp_location" {
   type = "string"
-   default = "us-central1"
+   default = "${local.gcp_region}"
 
   description = <<EOF
 The location (region or zone) in which the cluster master will be created,
